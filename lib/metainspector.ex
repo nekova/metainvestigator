@@ -1,0 +1,2 @@
+defmodule MetaInspector do
+end
