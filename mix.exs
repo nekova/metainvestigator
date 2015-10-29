@@ -26,6 +26,7 @@ defmodule MetaInspector.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
+      {:elixir_mbcs, "~> 0.1.1", path: "~/contributes/elixir-mbcs"},
       {:httpoison, "~> 0.7.2"},
       {:floki, "~> 0.6"}
     ]

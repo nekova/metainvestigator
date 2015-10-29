@@ -4,7 +4,7 @@ defmodule MetaInspector do
 
   def new(url) do
     document = HTTPoison.get!(url)
-    body = document.body
+    body = document.body |> to_utf8
     %MetaInspector{status: status(document), title: title(body), best_title: best_title(body)}
   end
 
@@ -40,5 +40,20 @@ defmodule MetaInspector do
 
   defmacro exist?(attribute) do
     quote do: unquote(String.length(attribute)) > 0
+  end
+
+  defp to_utf8(body) do
+    try do
+      String.to_char_list(body)
+      body
+    rescue
+      UnicodeConversionError -> convert_to_utf8(body)
+    end
+  end
+
+  defp convert_to_utf8(body) do
+    Mbcs.start
+    str = :erlang.binary_to_list(body)
+    "#{Mbcs.decode!(str, :cp932, return: :list)}"
   end
 end
