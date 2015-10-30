@@ -45,11 +45,11 @@ defmodule MetaInspector do
       String.to_char_list(body)
       body
     rescue
-      UnicodeConversionError -> convert_to_utf8(body)
+      UnicodeConversionError -> decode_to_utf8(body)
     end
   end
 
-  defp convert_to_utf8(body) do
+  defp decode_to_utf8(body) do
     Mbcs.start
     str = :erlang.binary_to_list(body)
     "#{Mbcs.decode!(str, :cp932, return: :list)}"
