@@ -12,23 +12,25 @@ defmodule MetaInspector do
     document.status_code
   end
 
+  @spec title(String.t) :: String.t
   def title(body) do
     body
     |> Floki.find("head title")
     |> Floki.text
   end
 
-  def og_title(body) do
-    meta_tag_by(body, "title")
-  end
-
+  @spec best_title(String.t) :: String.t
   def best_title(body) do
-    og_title = og_title(body)
+    og_title = og_title(body) |> to_string
     title    = title(body)
-    case og_title > title do
+    case og_title >= title do
       true  -> og_title
       false -> title
     end
+  end
+
+  def og_title(body) do
+    meta_tag_by(body, "title")
   end
 
   # attribute = "title", "description", "image", "url", "type"
@@ -36,10 +38,6 @@ defmodule MetaInspector do
   defp meta_tag_by(body, attribute) do
     Floki.find(body, "[property=\"og:#{attribute}\"]")
     |> Floki.attribute("content")
-  end
-
-  defmacro exist?(attribute) do
-    quote do: unquote(String.length(attribute)) > 0
   end
 
   defp to_utf8(body) do
