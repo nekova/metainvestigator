@@ -35,7 +35,7 @@ defmodule MetaInspector do
 
   # attribute = "title", "description", "image", "url", "type"
   @spec meta_tag_by(String.t, String.t) :: [String.t]
-  defp meta_tag_by(body, attribute) do
+  defp meta_tag_by(body, attribute) when attribute in ["title"] do
     Floki.find(body, "[property=\"og:#{attribute}\"]")
     |> Floki.attribute("content")
   end
