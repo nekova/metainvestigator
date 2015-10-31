@@ -1,15 +1,9 @@
 defmodule MetaInspectorTest do
   use ExUnit.Case
 
-  @html """
-  <html>
-  <head>
-  <title>MetaInspector</title>
-  <meta content="MetaInspector in Test" property="og:title">
-  </head>
-  <body></body>
-  </html>
-  """
+  @html File.read! "test/html/utf8.html"
+
+  @shift_jis File.read! "test/html/shift_jis.html"
 
   test "title" do
     assert "MetaInspector" == MetaInspector.title(@html)
@@ -28,9 +22,8 @@ defmodule MetaInspectorTest do
   end
 
   test "to_utf8 with shift-jis" do
-    {:ok, html} = File.read "test/html/shift_jis.html"
     assert_raise UnicodeConversionError, fn ->
-       String.to_char_list(html)
+       String.to_char_list(@shift_jis)
     end
   end
 end
