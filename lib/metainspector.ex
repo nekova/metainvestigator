@@ -40,20 +40,9 @@ defmodule MetaInspector do
     |> List.first
   end
 
-  def og_title(body) do
-    meta_tag_by(body, "title")
-  end
-
-  def og_image(body) do
-    meta_tag_by(body, "image")
-  end
-
-  def og_type(body) do
-    meta_tag_by(body, "type")
-  end
-
-  def og_url(body) do
-    meta_tag_by(body, "url")
+  metadata = [{:og_title, "title"}, {:og_type, "type"}, {:og_image, "image"}, {:og_url, "url"}]
+  for {func, meta} <- metadata do
+    def unquote(func)(body), do: meta_tag_by(body, unquote(meta))
   end
 
   @spec meta_tag_by(String.t, String.t) :: [String.t]

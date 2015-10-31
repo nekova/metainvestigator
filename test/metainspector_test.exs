@@ -13,6 +13,18 @@ defmodule MetaInspectorTest do
     assert ["MetaInspector in Test"] == MetaInspector.og_title(@html)
   end
 
+  test "og_image" do
+    assert ["http://img.example.com"] == MetaInspector.og_image(@html)
+  end
+
+  test "og_type" do
+    assert ["article"] == MetaInspector.og_type(@html)
+  end
+
+  test "og_url" do
+    assert ["http://example.com"] == MetaInspector.og_url(@html)
+  end
+
   test "best_title" do
     assert "MetaInspector in Test" == MetaInspector.best_title(@html)
   end
