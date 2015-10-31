@@ -1,11 +1,11 @@
 defmodule MetaInspector do
-  defstruct status: nil, title: nil, best_title: nil
-  @type t :: %__MODULE__{status: integer, title: String.t, best_title: String.t}
+  defstruct status: nil, title: nil, best_title: nil, best_image: nil
+  @type t :: %__MODULE__{status: integer, title: String.t, best_title: String.t, best_image: String.t}
 
   def new(url) do
     document = HTTPoison.get!(url)
     body = document.body |> to_utf8
-    %MetaInspector{status: status(document), title: title(body), best_title: best_title(body)}
+    %MetaInspector{status: status(document), title: title(body), best_title: best_title(body), best_image: best_image(body)}
   end
 
   def status(document) do
@@ -29,13 +29,23 @@ defmodule MetaInspector do
     end
   end
 
+  @spec best_image(String.t) :: String.t
+  def best_image(body) do
+    og_image(body)
+    |> List.first
+  end
+
   def og_title(body) do
     meta_tag_by(body, "title")
   end
 
+  def og_image(body) do
+    meta_tag_by(body, "image")
+  end
+
   # attribute = "title", "description", "image", "url", "type"
   @spec meta_tag_by(String.t, String.t) :: [String.t]
-  defp meta_tag_by(body, attribute) when attribute in ["title"] do
+  defp meta_tag_by(body, attribute) when attribute in ["title", "image"] do
     Floki.find(body, "[property=\"og:#{attribute}\"]")
     |> Floki.attribute("content")
   end
