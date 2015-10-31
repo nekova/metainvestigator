@@ -8,13 +8,19 @@ defmodule MetaInspector do
   @type t :: %__MODULE__{status: integer, title: String.t, best_title: String.t, best_image: String.t, meta: MetaInspector.Meta.t}
 
   def new(url) do
-    document = HTTPoison.get!(url)
-    body = document.body |> to_utf8
-    %MetaInspector{status: status(document), title: title(body), best_title: best_title(body), best_image: best_image(body), meta: meta(body)}
+    case HTTPoison.get(url) do
+      {:ok, response} -> fetch(response)
+      {:error, reason} -> {:error, reason}
+    end
   end
 
-  def status(document) do
-    document.status_code
+  def fetch(response) do
+    body = response.body |> to_utf8
+    %MetaInspector{status: status(response), title: title(body), best_title: best_title(body), best_image: best_image(body), meta: meta(body)}
+  end
+
+  def status(response) do
+    response.status_code
   end
 
   @spec title(String.t) :: String.t
@@ -51,6 +57,10 @@ defmodule MetaInspector do
     |> Floki.attribute("content")
   end
 
+  defp meta(body) do
+    %MetaInspector.Meta{og_title: og_title(body), og_type: og_type(body), og_url: og_url(body), og_image: og_image(body)}
+  end
+
   def to_utf8(body) do
     try do
       String.to_char_list(body)
@@ -64,9 +74,5 @@ defmodule MetaInspector do
     Mbcs.start
     str = :erlang.binary_to_list(body)
     "#{Mbcs.decode!(str, :cp932, return: :list)}"
-  end
-
-  defp meta(body) do
-    %MetaInspector.Meta{og_title: og_title(body), og_type: og_type(body), og_url: og_url(body), og_image: og_image(body)}
   end
 end
