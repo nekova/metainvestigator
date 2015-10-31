@@ -40,7 +40,7 @@ defmodule MetaInspector do
     |> Floki.attribute("content")
   end
 
-  defp to_utf8(body) do
+  def to_utf8(body) do
     try do
       String.to_char_list(body)
       body
@@ -49,7 +49,7 @@ defmodule MetaInspector do
     end
   end
 
-  defp decode_to_utf8(body) do
+  def decode_to_utf8(body) do
     Mbcs.start
     str = :erlang.binary_to_list(body)
     "#{Mbcs.decode!(str, :cp932, return: :list)}"

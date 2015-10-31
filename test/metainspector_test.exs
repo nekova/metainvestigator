@@ -22,4 +22,15 @@ defmodule MetaInspectorTest do
   test "best_title" do
     assert "MetaInspector in Test" == MetaInspector.best_title(@html)
   end
+
+  test "to_utf8 with utf8" do
+    assert @html == MetaInspector.to_utf8(@html)
+  end
+
+  test "to_utf8 with shift-jis" do
+    {:ok, html} = File.read "test/html/shift_jis.html"
+    assert_raise UnicodeConversionError, fn ->
+       String.to_char_list(html)
+    end
+  end
 end
