@@ -6,31 +6,31 @@ defmodule MetaInspectorTest do
   @shift_jis File.read! "test/html/shift_jis.html"
 
   test "title" do
-    assert "MetaInspector" == MetaInspector.title(@html)
+    assert MetaInspector.title(@html) == "MetaInspector"
   end
 
   test "og_title" do
-    assert ["MetaInspector in Test"] == MetaInspector.og_title(@html)
+    assert MetaInspector.og_title(@html) == ["MetaInspector in Test"]
   end
 
   test "og_image" do
-    assert ["http://img.example.com"] == MetaInspector.og_image(@html)
+    assert MetaInspector.og_image(@html) == ["http://img.example.com"]
   end
 
   test "og_type" do
-    assert ["article"] == MetaInspector.og_type(@html)
+    assert MetaInspector.og_type(@html) == ["article"]
   end
 
   test "og_url" do
-    assert ["http://example.com"] == MetaInspector.og_url(@html)
+    assert MetaInspector.og_url(@html) == ["http://example.com"]
   end
 
   test "best_title" do
-    assert "MetaInspector in Test" == MetaInspector.best_title(@html)
+    assert MetaInspector.best_title(@html) == "MetaInspector in Test"
   end
 
   test "to_utf8 with utf8" do
-    assert @html == MetaInspector.to_utf8(@html)
+    assert MetaInspector.to_utf8(@html) == @html 
   end
 
   test "to_utf8 with shift-jis" do
