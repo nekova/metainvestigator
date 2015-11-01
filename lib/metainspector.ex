@@ -4,26 +4,24 @@ defmodule MetaInspector.Meta do
 end
 
 defmodule MetaInspector do
-  defstruct status: nil, title: nil, best_title: nil, best_image: nil, meta: nil
+  defstruct status: nil, title: nil, best_title: nil, best_image: nil, meta: %{}
   @type t :: %__MODULE__{status: integer, title: String.t, best_title: String.t, best_image: String.t, meta: MetaInspector.Meta.t}
 
+  @spec new(String.t) :: __MODULE__.t
   def new(url) do
     case HTTPoison.get(url) do
-      {:ok, response} -> {:ok, fetch(response)}
-      {:error, reason} -> {:error, reason}
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        fetch(body)
+      {:ok, %HTTPoison.Response{status_code: status}} ->
+        %__MODULE__{status: status}
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:error, reason}
     end
   end
 
-  def new!(url) do
-    case HTTPoison.get(url) do
-      {:ok, response} -> fetch(response)
-      {:error, _} -> %MetaInspector{}
-    end
-  end
-
-  def fetch(response) do
-    body = response.body |> to_utf8
-    %MetaInspector{status: status(response), title: title(body), best_title: best_title(body), best_image: best_image(body), meta: meta(body)}
+  def fetch(body) do
+    body = body |> to_utf8
+    %__MODULE__{status: 200, title: title(body), best_title: best_title(body), best_image: best_image(body), meta: meta(body)}
   end
 
   def status(response) do
@@ -65,7 +63,7 @@ defmodule MetaInspector do
   end
 
   defp meta(body) do
-    %MetaInspector.Meta{og_title: og_title(body), og_type: og_type(body), og_url: og_url(body), og_image: og_image(body)}
+    %__MODULE__.Meta{og_title: og_title(body), og_type: og_type(body), og_url: og_url(body), og_image: og_image(body)}
   end
 
   def to_utf8(body) do
