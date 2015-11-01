@@ -30,7 +30,7 @@ defmodule MetaInspectorTest do
   end
 
   test "to_utf8 with utf8" do
-    assert MetaInspector.to_utf8(@html) == @html 
+    assert MetaInspector.to_utf8(@html) == @html
   end
 
   test "to_utf8 with shift-jis" do
