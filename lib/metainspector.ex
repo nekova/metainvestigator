@@ -9,8 +9,15 @@ defmodule MetaInspector do
 
   def new(url) do
     case HTTPoison.get(url) do
-      {:ok, response} -> fetch(response)
+      {:ok, response} -> {:ok, fetch(response)}
       {:error, reason} -> {:error, reason}
+    end
+  end
+
+  def new!(url) do
+    case HTTPoison.get(url) do
+      {:ok, response} -> fetch(response)
+      {:error, _} -> %MetaInspector{}
     end
   end
 
