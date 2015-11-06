@@ -33,6 +33,14 @@ defmodule MetaInspectorTest do
     assert MetaInspector.to_utf8(@html) == @html
   end
 
+  test "@html is utf8" do
+    assert String.valid?(@html)
+  end
+
+  test "@shift_jis is not utf8" do
+    refute String.valid?(@shift_jis)
+  end
+
   test "to_utf8 with shift-jis" do
     assert_raise UnicodeConversionError, fn ->
        String.to_char_list(@shift_jis)

@@ -67,11 +67,9 @@ defmodule MetaInspector do
   end
 
   def to_utf8(body) do
-    try do
-      String.to_char_list(body)
-      body
-    rescue
-      UnicodeConversionError -> decode_to_utf8(body)
+    case String.valid?(body) do
+      true -> body
+      false -> decode_to_utf8(body)
     end
   end
 
