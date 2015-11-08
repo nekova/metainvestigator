@@ -11,11 +11,18 @@ defmodule MetaInspector do
   def new(url) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        fetch(body)
-      {:ok, %HTTPoison.Response{status_code: status}} ->
-        %__MODULE__{status: status}
+        {:ok, fetch(body)}
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, reason}
+    end
+  end
+
+  def new!(url) do
+    case new(url) do
+      {:ok, response} ->
+        response
+      {:error, reason} ->
+        reason
     end
   end
 
