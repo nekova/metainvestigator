@@ -7,6 +7,8 @@ defmodule MetaInspector do
   defstruct status: nil, title: nil, best_title: nil, best_image: nil, meta: %{}
   @type t :: %__MODULE__{status: integer, title: String.t, best_title: String.t, best_image: String.t, meta: MetaInspector.Meta.t}
 
+  @metadata ["title", "type", "image", "url"]
+
   @spec new(String.t) :: __MODULE__.t
   def new(url) do
     case HTTPoison.get(url) do
@@ -58,13 +60,12 @@ defmodule MetaInspector do
     |> List.first
   end
 
-  metadata = ["title", "type", "image", "url"]
-  for meta <- metadata do
+  for meta <- @metadata do
     def unquote(:"og_#{meta}")(body), do: meta_tag_by(body, unquote(meta))
   end
 
   @spec meta_tag_by(String.t, String.t) :: [String.t]
-  defp meta_tag_by(body, attribute) when attribute in ["title", "image", "type", "url"] do
+  defp meta_tag_by(body, attribute) when attribute in @metadata do
     Floki.find(body, "[property=\"og:#{attribute}\"]")
     |> Floki.attribute("content")
   end
