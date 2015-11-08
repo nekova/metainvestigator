@@ -41,9 +41,7 @@ defmodule MetaInspectorTest do
     refute String.valid?(@shift_jis)
   end
 
-  test "to_utf8 with shift-jis" do
-    assert_raise UnicodeConversionError, fn ->
-       String.to_char_list(@shift_jis)
-    end
+  test "@shift_jis decode to utf8" do
+    refute MetaInspector.to_utf8(@shift_jis) == @shift_jis
   end
 end

@@ -77,13 +77,10 @@ defmodule MetaInspector do
   def to_utf8(body) do
     case String.valid?(body) do
       true -> body
-      false -> decode_to_utf8(body)
+      false ->
+        Mbcs.start
+        str = :erlang.binary_to_list(body)
+        "#{Mbcs.decode!(str, :cp932, return: :list)}"
     end
-  end
-
-  def decode_to_utf8(body) do
-    Mbcs.start
-    str = :erlang.binary_to_list(body)
-    "#{Mbcs.decode!(str, :cp932, return: :list)}"
   end
 end
