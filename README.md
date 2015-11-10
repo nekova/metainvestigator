@@ -9,7 +9,7 @@ You can get its title, links, images, charset, description, keywords, meta tags.
 
 ```elixir
 page = MetaInspector.new("https://essay.nekova.net")
-{:ok, %MetaInspector{status: 200}}
+{:ok, %MetaInspector{}}
 ```
 ## Installation
 First, add MetaInspector to your mix.exs dependencies:
