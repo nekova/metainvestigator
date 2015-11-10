@@ -1,53 +1,25 @@
-defmodule MetaInspector.Meta do
-  defstruct og_title: [], og_type: [], og_url: [], og_image: []
-  @type t :: %__MODULE__{og_title: list, og_type: list, og_url: list, og_image: list}
-end
-
 defmodule MetaInspector do
-  defstruct status: nil, title: nil, best_title: nil, best_image: nil, meta: %{}
-  @type t :: %__MODULE__{status: integer, title: String.t, best_title: String.t, best_image: String.t, meta: MetaInspector.Meta.t}
+  defstruct title: nil, best_title: nil, best_image: nil, meta: %{}
+  @type t :: %__MODULE__{title: String.t, best_title: String.t, best_image: String.t, meta: MetaInspector.Meta.t}
 
   @metadata ["title", "type", "image", "url"]
 
-  @spec new(String.t) :: __MODULE__.t
-  def new(url) do
-    case HTTPoison.get(url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        {:ok, fetch(body)}
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        {:error, reason}
-    end
-  end
-
-  def new!(url) do
-    case new(url) do
-      {:ok, response} ->
-        response
-      {:error, reason} ->
-        reason
-    end
-  end
-
-  def fetch(body) do
-    body = body |> to_utf8
-    %__MODULE__{status: 200, title: title(body), best_title: best_title(body), best_image: best_image(body), meta: meta(body)}
-  end
-
-  def status(response) do
-    response.status_code
+  def fetch(html) do
+    html = html |> to_utf8
+    %{title: title(html), best_title: best_title(html), best_image: best_image(html), meta: meta(html)}
   end
 
   @spec title(String.t) :: String.t
-  def title(body) do
-    body
+  def title(html) do
+    html
     |> Floki.find("head title")
     |> Floki.text
   end
 
   @spec best_title(String.t) :: String.t
-  def best_title(body) do
-    og_title = og_title(body) |> to_string
-    title    = title(body)
+  def best_title(html) do
+    og_title = og_title(html) |> to_string
+    title    = title(html)
     case og_title >= title do
       true  -> og_title
       false -> title
@@ -55,31 +27,31 @@ defmodule MetaInspector do
   end
 
   @spec best_image(String.t) :: String.t
-  def best_image(body) do
-    og_image(body)
+  def best_image(html) do
+    og_image(html)
     |> List.first
   end
 
   for meta <- @metadata do
-    def unquote(:"og_#{meta}")(body), do: meta_tag_by(body, unquote(meta))
+    def unquote(:"og_#{meta}")(html), do: meta_tag_by(html, unquote(meta))
   end
 
   @spec meta_tag_by(String.t, String.t) :: [String.t]
-  defp meta_tag_by(body, attribute) when attribute in @metadata do
-    Floki.find(body, "[property=\"og:#{attribute}\"]")
+  defp meta_tag_by(html, attribute) when attribute in @metadata do
+    Floki.find(html, "[property=\"og:#{attribute}\"]")
     |> Floki.attribute("content")
   end
 
-  defp meta(body) do
-    %__MODULE__.Meta{og_title: og_title(body), og_type: og_type(body), og_url: og_url(body), og_image: og_image(body)}
+  defp meta(html) do
+    %__MODULE__.Meta{og_title: og_title(html), og_type: og_type(html), og_url: og_url(html), og_image: og_image(html)}
   end
 
-  def to_utf8(body) do
-    case String.valid?(body) do
-      true -> body
+  def to_utf8(string) do
+    case String.valid?(string) do
+      true -> string
       false ->
         Mbcs.start
-        str = :erlang.binary_to_list(body)
+        str = :erlang.binary_to_list(string)
         "#{Mbcs.decode!(str, :cp932, return: :list)}"
     end
   end
