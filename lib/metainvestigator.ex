@@ -36,7 +36,7 @@ defmodule MetaInvestigator do
 
   @spec best_image(String.t) :: String.t
   def best_image(html) do
-    og_image(html) ++ images(html) |> List.first
+    [og_image(html)] ++ images(html) |> List.first
   end
 
   @spec charset(String.t) :: String.t
@@ -56,7 +56,7 @@ defmodule MetaInvestigator do
   @spec meta_tag_by(String.t, String.t) :: [String.t]
   defp meta_tag_by(html, attribute) when attribute in @metadata do
     Floki.find(html, "[property=\"og:#{attribute}\"]")
-    |> Floki.attribute("content")
+    |> Floki.attribute("content") |> List.first
   end
 
   defp meta(html) do

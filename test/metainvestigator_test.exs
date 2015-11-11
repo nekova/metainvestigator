@@ -23,19 +23,19 @@ defmodule MetaInvestigatorTest do
   end
 
   test "og_title" do
-    assert og_title(@html) == ["MetaInvestigator in Test"]
+    assert og_title(@html) == "MetaInvestigator in Test"
   end
 
   test "og_image" do
-    assert og_image(@html) == ["http://img.example.gif"]
+    assert og_image(@html) == "http://img.example.gif"
   end
 
   test "og_type" do
-    assert og_type(@html) == ["article"]
+    assert og_type(@html) == "article"
   end
 
   test "og_url" do
-    assert og_url(@html) == ["http://example.com"]
+    assert og_url(@html) == "http://example.com"
   end
 
   test "best_title" do
