@@ -1,12 +1,12 @@
 defmodule MetaInvestigator do
-  defstruct title: nil, best_title: nil, best_image: nil, meta: %{}
-  @type t :: %__MODULE__{title: String.t, best_title: String.t, best_image: String.t, meta: MetaInvestigator.Meta.t}
+  defstruct title: nil, images: [], best_title: nil, best_image: nil, meta: %{}
+  @type t :: %__MODULE__{title: String.t, images: list, best_title: String.t, best_image: String.t, meta: MetaInvestigator.Meta.t}
 
   @metadata ["title", "type", "image", "url"]
 
   def fetch(html) do
     html = html |> to_utf8
-    %{title: title(html), best_title: best_title(html), best_image: best_image(html), meta: meta(html)}
+    %{title: title(html), images: images(html), best_title: best_title(html), best_image: best_image(html), meta: meta(html)}
   end
 
   @spec title(String.t) :: String.t
@@ -14,6 +14,14 @@ defmodule MetaInvestigator do
     html
     |> Floki.find("head title")
     |> Floki.text
+  end
+
+  @spec images(String.t) :: [String.t]
+  def images(html) do
+    html
+    |> Floki.find("img")
+    |> Floki.attribute("src")
+    |> Enum.uniq
   end
 
   @spec best_title(String.t) :: String.t
@@ -28,8 +36,7 @@ defmodule MetaInvestigator do
 
   @spec best_image(String.t) :: String.t
   def best_image(html) do
-    og_image(html)
-    |> List.first
+    og_image(html) ++ images(html) |> List.first
   end
 
   for meta <- @metadata do

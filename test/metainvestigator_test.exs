@@ -10,12 +10,16 @@ defmodule MetaInvestigatorTest do
     assert title(@html) == "MetaInvestigator"
   end
 
+  test "images" do
+    assert length(images(@html)) == 2
+  end
+
   test "og_title" do
     assert og_title(@html) == ["MetaInvestigator in Test"]
   end
 
   test "og_image" do
-    assert og_image(@html) == ["http://img.example.com"]
+    assert og_image(@html) == ["http://img.example.gif"]
   end
 
   test "og_type" do
@@ -28,6 +32,10 @@ defmodule MetaInvestigatorTest do
 
   test "best_title" do
     assert best_title(@html) == "MetaInvestigator in Test"
+  end
+
+  test "best_image" do
+    assert best_image(@html) == "http://img.example.gif"
   end
 
   test "to_utf8 with utf8" do
