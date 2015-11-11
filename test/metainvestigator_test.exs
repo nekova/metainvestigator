@@ -14,6 +14,14 @@ defmodule MetaInvestigatorTest do
     assert length(images(@html)) == 2
   end
 
+  test "charset" do
+    assert charset(@html) == "utf-8"
+  end
+
+  test "keywords" do
+    assert keywords(@html) == "This is keywords"
+  end
+
   test "og_title" do
     assert og_title(@html) == ["MetaInvestigator in Test"]
   end

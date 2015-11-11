@@ -39,6 +39,16 @@ defmodule MetaInvestigator do
     og_image(html) ++ images(html) |> List.first
   end
 
+  @spec charset(String.t) :: String.t
+  def charset(html) do
+    html |> Floki.find("meta") |> Floki.attribute("charset") |> List.first
+  end
+
+  @spec keywords(String.t) :: String.t
+  def keywords(html) do
+    html |> Floki.find("[name=\"keywords\"]") |> Floki.attribute("content") |> List.first
+  end
+
   for meta <- @metadata do
     def unquote(:"og_#{meta}")(html), do: meta_tag_by(html, unquote(meta))
   end
@@ -50,7 +60,7 @@ defmodule MetaInvestigator do
   end
 
   defp meta(html) do
-    %__MODULE__.Meta{og_title: og_title(html), og_type: og_type(html), og_url: og_url(html), og_image: og_image(html)}
+    %__MODULE__.Meta{charset: charset(html), keywords: keywords(html), og_title: og_title(html), og_type: og_type(html), og_url: og_url(html), og_image: og_image(html)}
   end
 
   def to_utf8(string) do
