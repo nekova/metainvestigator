@@ -1,17 +1,17 @@
-defmodule MetaInspectorTest do
+defmodule MetaInvestigatorTest do
   use ExUnit.Case
-  import MetaInspector
+  import MetaInvestigator
 
   @html File.read! "test/html/utf8.html"
 
   @shift_jis File.read! "test/html/shift_jis.html"
 
   test "title" do
-    assert title(@html) == "MetaInspector"
+    assert title(@html) == "MetaInvestigator"
   end
 
   test "og_title" do
-    assert og_title(@html) == ["MetaInspector in Test"]
+    assert og_title(@html) == ["MetaInvestigator in Test"]
   end
 
   test "og_image" do
@@ -27,7 +27,7 @@ defmodule MetaInspectorTest do
   end
 
   test "best_title" do
-    assert best_title(@html) == "MetaInspector in Test"
+    assert best_title(@html) == "MetaInvestigator in Test"
   end
 
   test "to_utf8 with utf8" do

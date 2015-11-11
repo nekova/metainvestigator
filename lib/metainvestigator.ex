@@ -1,6 +1,6 @@
-defmodule MetaInspector do
+defmodule MetaInvestigator do
   defstruct title: nil, best_title: nil, best_image: nil, meta: %{}
-  @type t :: %__MODULE__{title: String.t, best_title: String.t, best_image: String.t, meta: MetaInspector.Meta.t}
+  @type t :: %__MODULE__{title: String.t, best_title: String.t, best_image: String.t, meta: MetaInvestigator.Meta.t}
 
   @metadata ["title", "type", "image", "url"]
 

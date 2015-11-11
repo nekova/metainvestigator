@@ -1,6 +1,6 @@
-defmodule MetaInspector.Base do
+defmodule MetaInvestigator.Base do
   
-  # alias MetaInspector.Meta
+  # alias MetaInvestigator.Meta
   #
   # @metadata ["title", "type", "image", "url"]
   #
