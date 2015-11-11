@@ -1,7 +1,7 @@
 MetaInvestigator
 =============
 
-MetaInvestigator is a library for web scraping.
+MetaInvestigator is a library for web scraping, inspired by [MetaInspector](https://github.com/jaimeiniesta/metainspector).
 
 You can get its title, links, images, charset, description, keywords, meta tags...etc
 
