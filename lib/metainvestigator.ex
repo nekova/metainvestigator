@@ -2,11 +2,13 @@ defmodule MetaInvestigator do
   alias MetaInvestigator.Meta
 
   defstruct title: nil, images: [], best_title: nil, best_image: nil, meta: %{}
-  @type t :: %__MODULE__{title: String.t, images: list, best_title: String.t, best_image: String.t, meta: MetaInvestigator.Meta.t}
+  @type t :: %__MODULE__{ title: String.t, images: list, best_title: String.t,
+                          best_image: String.t, meta: MetaInvestigator.Meta.t }
 
   def fetch(html) do
     html = html |> to_utf8
-    %{title: title(html), images: images(html), best_title: best_title(html), best_image: best_image(html), meta: Meta.metatag(html)}
+    %{title: title(html), images: images(html), best_title: best_title(html),
+      best_image: best_image(html), meta: Meta.meta(html) }
   end
 
   @spec title(String.t) :: String.t
@@ -40,8 +42,7 @@ defmodule MetaInvestigator do
         string
       false ->
         Mbcs.start
-        str = :erlang.binary_to_list(string)
-        "#{Mbcs.decode!(str, :cp932, return: :list)}"
+        string |> :erlang.binary_to_list |> Mbcs.decode!(:cp932, return: :list) |> to_string
     end
   end
 end

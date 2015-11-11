@@ -1,6 +1,8 @@
 defmodule MetaInvestigator.Meta do
-  defstruct charset: nil, keywords: nil, og_title: nil, og_type: nil, og_url: nil, og_image: nil
-  @type t :: %__MODULE__{charset: String.t, keywords: String.t, og_title: String.t, og_type: String.t, og_url: String.t, og_image: String.t}
+  defstruct charset: nil, keywords: nil, og_title: nil, og_type: nil,
+            og_url: nil, og_image: nil
+  @type t :: %__MODULE__{ charset: String.t, keywords: String.t, og_title: String.t,
+                          og_type: String.t, og_url: String.t, og_image: String.t }
 
   @metadata ["title", "type", "image", "url"]
 
@@ -25,6 +27,13 @@ defmodule MetaInvestigator.Meta do
   end
 
   def meta(html) do
-    %__MODULE__{charset: charset(html), keywords: keywords(html), og_title: og_title(html), og_type: og_type(html), og_url: og_url(html), og_image: og_image(html)}
+    %__MODULE__{
+      charset: charset(html),
+      keywords: keywords(html),
+      og_title: og_title(html),
+      og_type: og_type(html),
+      og_url: og_url(html),
+      og_image: og_image(html)
+    }
   end
 end

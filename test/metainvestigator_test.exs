@@ -7,6 +7,18 @@ defmodule MetaInvestigatorTest do
 
   @shift_jis File.read! "test/html/shift_jis.html"
 
+  @valid_response %{
+    best_image: "http://img.example.gif", best_title: "MetaInvestigator in Test",
+    images: ["http://i.example.jpg", "http://duplicate.example.png"],
+    meta: %MetaInvestigator.Meta{charset: "utf-8", keywords: "This is keywords",
+    og_image: "http://img.example.gif", og_title: "MetaInvestigator in Test",
+    og_type: "article", og_url: "http://example.com"}, title: "MetaInvestigator"
+  }
+
+  test "fetch" do
+    assert fetch(@html) == @valid_response
+  end
+
   test "title" do
     assert title(@html) == "MetaInvestigator"
   end
