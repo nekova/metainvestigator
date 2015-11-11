@@ -11,22 +11,17 @@ defmodule MetaInvestigator do
 
   @spec title(String.t) :: String.t
   def title(html) do
-    html
-    |> Floki.find("head title")
-    |> Floki.text
+    html |> Floki.find("head title") |> Floki.text
   end
 
   @spec images(String.t) :: [String.t]
   def images(html) do
-    html
-    |> Floki.find("img")
-    |> Floki.attribute("src")
-    |> Enum.uniq
+    html |> Floki.find("img") |> Floki.attribute("src") |> Enum.uniq
   end
 
   @spec best_title(String.t) :: String.t
   def best_title(html) do
-    og_title = og_title(html) |> to_string
+    og_title = og_title(html)
     title    = title(html)
     case og_title >= title do
       true  -> og_title
@@ -65,7 +60,8 @@ defmodule MetaInvestigator do
 
   def to_utf8(string) do
     case String.valid?(string) do
-      true -> string
+      true ->
+        string
       false ->
         Mbcs.start
         str = :erlang.binary_to_list(string)
