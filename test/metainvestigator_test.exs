@@ -1,6 +1,7 @@
 defmodule MetaInvestigatorTest do
   use ExUnit.Case
   import MetaInvestigator
+  import MetaInvestigator.Meta
 
   @html File.read! "test/html/utf8.html"
 

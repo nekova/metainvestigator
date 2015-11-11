@@ -1,12 +1,12 @@
 defmodule MetaInvestigator do
+  alias MetaInvestigator.Meta
+
   defstruct title: nil, images: [], best_title: nil, best_image: nil, meta: %{}
   @type t :: %__MODULE__{title: String.t, images: list, best_title: String.t, best_image: String.t, meta: MetaInvestigator.Meta.t}
 
-  @metadata ["title", "type", "image", "url"]
-
   def fetch(html) do
     html = html |> to_utf8
-    %{title: title(html), images: images(html), best_title: best_title(html), best_image: best_image(html), meta: meta(html)}
+    %{title: title(html), images: images(html), best_title: best_title(html), best_image: best_image(html), meta: Meta.metatag(html)}
   end
 
   @spec title(String.t) :: String.t
@@ -21,7 +21,7 @@ defmodule MetaInvestigator do
 
   @spec best_title(String.t) :: String.t
   def best_title(html) do
-    og_title = og_title(html)
+    og_title = Meta.og_title(html)
     title    = title(html)
     case og_title >= title do
       true  -> og_title
@@ -31,31 +31,7 @@ defmodule MetaInvestigator do
 
   @spec best_image(String.t) :: String.t
   def best_image(html) do
-    [og_image(html)] ++ images(html) |> List.first
-  end
-
-  @spec charset(String.t) :: String.t
-  def charset(html) do
-    html |> Floki.find("meta") |> Floki.attribute("charset") |> List.first
-  end
-
-  @spec keywords(String.t) :: String.t
-  def keywords(html) do
-    html |> Floki.find("[name=\"keywords\"]") |> Floki.attribute("content") |> List.first
-  end
-
-  for meta <- @metadata do
-    def unquote(:"og_#{meta}")(html), do: meta_tag_by(html, unquote(meta))
-  end
-
-  @spec meta_tag_by(String.t, String.t) :: [String.t]
-  defp meta_tag_by(html, attribute) when attribute in @metadata do
-    Floki.find(html, "[property=\"og:#{attribute}\"]")
-    |> Floki.attribute("content") |> List.first
-  end
-
-  defp meta(html) do
-    %__MODULE__.Meta{charset: charset(html), keywords: keywords(html), og_title: og_title(html), og_type: og_type(html), og_url: og_url(html), og_image: og_image(html)}
+    [Meta.og_image(html)] ++ images(html) |> List.first
   end
 
   def to_utf8(string) do
