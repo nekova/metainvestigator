@@ -23,12 +23,7 @@ defmodule MetaInvestigator do
 
   @spec best_title(String.t) :: String.t
   def best_title(html) do
-    og_title = Meta.og_title(html)
-    title    = title(html)
-    case og_title >= title do
-      true  -> og_title
-      false -> title
-    end
+    [Meta.og_title(html)] ++ [title(html)] |> List.first
   end
 
   @spec best_image(String.t) :: String.t
