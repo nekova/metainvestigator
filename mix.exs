@@ -29,7 +29,8 @@ defmodule MetaInvestigator.Mixfile do
   defp deps do
     [
       {:elixir_mbcs, "~> 0.1.1", path: "~/contributes/elixir-mbcs"},
-      {:floki, "~> 0.6"}
+      {:floki, "~> 0.6"},
+      {:httpoison, "~> 0.7.2", only: :dev}
     ]
   end
 
