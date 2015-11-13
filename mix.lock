@@ -6,7 +6,7 @@
   "hackney": {:hex, :hackney, "1.3.2"},
   "httpoison": {:hex, :httpoison, "0.7.5"},
   "idna": {:hex, :idna, "1.0.2"},
-  "mbcs": {:git, "git://github.com/rkfg/erlang-mbcs.git", "02ca02a4cbde44ff8189d295e686f6dc9f2bc0ab", []},
+  "mbcs": {:git, "git://github.com/rkfg/erlang-mbcs.git", "7bc88e28624abd6780073241e3bbb01b874b6a16", []},
   "mochiweb": {:hex, :mochiweb, "2.12.2"},
   "parallel": {:hex, :parallel, "0.0.2"},
   "scrape": {:hex, :scrape, "1.0.1"},
