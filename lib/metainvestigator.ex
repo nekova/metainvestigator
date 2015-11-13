@@ -41,6 +41,9 @@ defmodule MetaInvestigator do
     end
   end
 
+  defp compare(nil, nil), do: nil
+  defp compare(one, nil), do: one
+  defp compare(nil, two), do: two
   defp compare(one, two) do
     case String.length(one) >= String.length(two) do
       true -> one
