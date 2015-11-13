@@ -5,6 +5,8 @@ defmodule MetaInvestigator.Mixfile do
     [app: :metainvestigator,
      version: "0.0.1",
      elixir: "~> 1.0",
+     description: description,
+     package: package,
      deps: deps]
   end
 
@@ -29,6 +31,19 @@ defmodule MetaInvestigator.Mixfile do
       {:elixir_mbcs, "~> 0.1.1", path: "~/contributes/elixir-mbcs"},
       {:httpoison, "~> 0.7.2"},
       {:floki, "~> 0.6"}
+    ]
+  end
+
+  defp description do
+    """
+    A library for web scraping, inspired by MetaInspector
+    """
+  end
+
+  defp package do
+    [contributors: ["nekova"],
+     licenses: ["MIT"],
+     links: %{github: "https://github.com/nekova/metainvestigator"}
     ]
   end
 end
