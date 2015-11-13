@@ -41,3 +41,11 @@ def application do
   [applications: [:metainvestigator]]
 end
 ```
+
+## LICENSE
+```
+Copyright © 2015 nekova <nekova07@gmail.com>
+
+This work is free. You can redistribute it and/or modify it under the
+terms of the MIT License. See the LICENSE file for more details.
+```
