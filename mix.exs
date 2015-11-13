@@ -14,7 +14,7 @@ defmodule MetaInvestigator.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :httpoison, :elixir_mbcs]]
+    [applications: [:logger, :elixir_mbcs]]
   end
 
   # Dependencies can be Hex packages:
@@ -29,7 +29,6 @@ defmodule MetaInvestigator.Mixfile do
   defp deps do
     [
       {:elixir_mbcs, "~> 0.1.1", path: "~/contributes/elixir-mbcs"},
-      {:httpoison, "~> 0.7.2"},
       {:floki, "~> 0.6"}
     ]
   end
