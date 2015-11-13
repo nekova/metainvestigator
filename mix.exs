@@ -41,7 +41,7 @@ defmodule MetaInvestigator.Mixfile do
   end
 
   defp package do
-    [contributors: ["nekova"],
+    [maintainers: ["nekova"],
      licenses: ["MIT"],
      links: %{github: "https://github.com/nekova/metainvestigator"}
     ]
