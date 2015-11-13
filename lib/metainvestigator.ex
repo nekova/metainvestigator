@@ -23,7 +23,7 @@ defmodule MetaInvestigator do
 
   @spec best_title(String.t) :: String.t
   def best_title(html) do
-    [Meta.og_title(html)] ++ [title(html)] |> List.first
+    compare(Meta.og_title(html), title(html))
   end
 
   @spec best_image(String.t) :: String.t
@@ -38,6 +38,13 @@ defmodule MetaInvestigator do
       false ->
         Mbcs.start
         string |> :erlang.binary_to_list |> Mbcs.decode!(:cp932, return: :list) |> to_string
+    end
+  end
+
+  defp compare(one, two) do
+    case String.length(one) >= String.length(two) do
+      true -> one
+      false -> two
     end
   end
 end
