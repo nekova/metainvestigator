@@ -28,7 +28,7 @@ defmodule MetaInvestigator.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:elixir_mbcs, "~> 0.1.1", path: "~/contributes/elixir-mbcs"},
+      {:elixir_mbcs, git: "https://github.com/woxtu/elixir-mbcs.git"},
       {:floki, "~> 0.6"},
       {:httpoison, "~> 0.7.2", only: :dev}
     ]
