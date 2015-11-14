@@ -30,7 +30,7 @@ First, add MetaInvestigator to your mix.exs dependencies:
 
 ```elixir
 def dpes do
-  [{:metainvestigator, "~> 0.0.1"}]
+  [{:metainvestigator, "~> 0.0.2"}]
 end
 ```
 
