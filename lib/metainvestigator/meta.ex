@@ -20,7 +20,7 @@ defmodule MetaInvestigator.Meta do
     def unquote(:"og_#{meta}")(html), do: meta_tag_by(html, unquote(meta))
   end
 
-  @spec meta_tag_by(String.t, String.t) :: [String.t]
+  @spec meta_tag_by(String.t, String.t) :: String.t
   defp meta_tag_by(html, attribute) when attribute in @metadata do
     Floki.find(html, "[property=\"og:#{attribute}\"]")
     |> Floki.attribute("content") |> List.first
