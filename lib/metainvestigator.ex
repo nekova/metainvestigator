@@ -10,8 +10,8 @@ defmodule MetaInvestigator do
   @doc """
   Fetch elements inside a HTML
   """
-  def fetch(html) do
-    html = html |> to_utf8
+  def fetch(html) when is_binary(html) do
+    unless String.valid?(html), do: html = to_utf8(html)
     %{title: title(html), images: images(html), best_title: best_title(html),
       best_image: best_image(html), meta: Meta.meta(html) }
   end
@@ -37,13 +37,8 @@ defmodule MetaInvestigator do
   end
 
   def to_utf8(string) do
-    case String.valid?(string) do
-      true ->
-        string
-      false ->
-        Mbcs.start
-        string |> :erlang.binary_to_list |> Mbcs.decode!(:cp932, return: :list) |> to_string
-    end
+    Mbcs.start
+    string |> :erlang.binary_to_list |> Mbcs.decode!(:cp932, return: :list) |> to_string
   end
 
   defp compare(nil, nil), do: nil
