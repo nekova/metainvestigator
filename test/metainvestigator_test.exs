@@ -1,7 +1,6 @@
 defmodule MetaInvestigatorTest do
   use ExUnit.Case
   import MetaInvestigator
-  import MetaInvestigator.Meta
 
   @html File.read! "test/html/utf8.html"
 
@@ -25,30 +24,6 @@ defmodule MetaInvestigatorTest do
 
   test "images" do
     assert length(images(@html)) == 2
-  end
-
-  test "charset" do
-    assert charset(@html) == "utf-8"
-  end
-
-  test "keywords" do
-    assert keywords(@html) == "This is keywords"
-  end
-
-  test "og_title" do
-    assert og_title(@html) == "MetaInvestigator in Test"
-  end
-
-  test "og_image" do
-    assert og_image(@html) == "http://img.example.gif"
-  end
-
-  test "og_type" do
-    assert og_type(@html) == "article"
-  end
-
-  test "og_url" do
-    assert og_url(@html) == "http://example.com"
   end
 
   test "best_title" do
