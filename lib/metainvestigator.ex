@@ -36,10 +36,12 @@ defmodule MetaInvestigator do
     [Meta.og_image(html)] ++ images(html) |> List.first
   end
 
-  def to_utf8(string) do
+  def to_utf8(string, encoding \\ :shift_jis) do
     Mbcs.start
-    string |> :erlang.binary_to_list |> Mbcs.decode!(:cp932, return: :list) |> to_string
+    string |> :erlang.binary_to_list |> decode(encoding) |> to_string
   end
+
+  def decode(string, :shift_jis), do: Mbcs.decode!(string, :cp932, return: :list)
 
   defp compare(nil, nil), do: nil
   defp compare(one, nil), do: one
