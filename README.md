@@ -42,6 +42,16 @@ def application do
 end
 ```
 
+## How to confirm the operation with iex
+```elixir
+$> cd metainvestigator
+$> iex -S mix
+iex(1)> HTTPoison.start
+{:ok, [:idna, :hackney, :httpoison]}
+iex(2)> html = HTTPoison.get!("URL").body
+iex(3)> page = MetaInvestigator.fetch(html)
+```
+
 ## LICENSE
 ```
 Copyright © 2015 nekova <nekova07@gmail.com>
