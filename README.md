@@ -9,9 +9,9 @@ You can get its title, images, charset, description, keywords, meta tags...etc
 You can use your favorite HTTP Client. HTTPoison, HTTPotion, tesla...etc
 
 ```elixir
-html = HTTPClient.get!("https://github.com/nekova").body
-page = MetaInvestigator.fetch(html)
-# => %{best_image: "https://avatars1.githubusercontent.com/u/3464295?v=3&s=400",
+iex(1)> html = HTTPClient.get!("https://github.com/nekova").body
+iex(2)> page = MetaInvestigator.fetch(html)
+#%{best_image: "https://avatars1.githubusercontent.com/u/3464295?v=3&s=400",
 #  best_title: "nekova (ಠ_ಠ) · GitHub",
 #  images: ["https://avatars3.githubusercontent.com/u/3464295?v=3&s=460",
 #   "https://assets-cdn.github.com/images/spinners/octocat-spinner-128.gif"],
@@ -19,10 +19,19 @@ page = MetaInvestigator.fetch(html)
 #   og_image: "https://avatars1.githubusercontent.com/u/3464295?v=3&s=400",
 #   og_title: "nekova (ಠ_ಠ)", og_type: "profile",
 #   og_url: "https://github.com/nekova"}, title: "nekova (ಠ_ಠ) · GitHub"}
-page.og_image
-#=> "https://avatars3.githubusercontent.com/u/3464295?v=3&s=460"
-page.best_title
-#=> "nekova (ಠ_ಠ) · GitHub"
+iex(3)> page.og_image
+"https://avatars3.githubusercontent.com/u/3464295?v=3&s=460"
+iex(4)> page.best_title
+"nekova (ಠ_ಠ) · GitHub"
+```
+
+You can access each element directly.
+
+```elixir
+iex(2)> page = MetaInvestigator.title(html)
+"nekova (ಠ_ಠ) · GitHub"
+iex(3)> page = MetaInvestigator.best_image(html)
+"https://avatars3.githubusercontent.com/u/3464295?v=3&s=460"
 ```
 
 ## Installation
