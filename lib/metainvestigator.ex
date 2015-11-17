@@ -1,6 +1,22 @@
 defmodule MetaInvestigator do
   alias MetaInvestigator.Meta
 
+  @moduledoc """
+  This is a simple library for web scraping.
+
+  You can get its title, images, charset, description, keywords, meta tags...etc
+
+  ## Example
+  You can get a struct that included all elements
+    * MetaInvestigator.fetch(html) : returns a struct
+
+  You can access the following elements directly
+    * MetaInvestigator.title(html) : returns a title
+    * MetaInvestigator.images(html) : returns all images
+    * MetaInvestigator.best_title(html) : returns a best title of the html
+    * MetaInvestigator.best_image(html) : returns a best image of the html
+  """
+
   defstruct title: nil, images: [], best_title: nil, best_image: nil, meta: %{}
   @type t :: %__MODULE__{ title: String.t, images: list, best_title: String.t,
                           best_image: String.t, meta: MetaInvestigator.Meta.t }
