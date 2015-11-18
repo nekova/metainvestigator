@@ -1,5 +1,5 @@
 %{"elixir_mbcs": {:git, "https://github.com/woxtu/elixir-mbcs.git", "884c97098cc08988dd0555ffd3ac564079d74457", []},
-  "floki": {:hex, :floki, "0.7.0"},
+  "floki": {:hex, :floki, "0.7.1"},
   "hackney": {:hex, :hackney, "1.3.2"},
   "httpoison": {:hex, :httpoison, "0.7.5"},
   "idna": {:hex, :idna, "1.0.2"},
