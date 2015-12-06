@@ -17,9 +17,18 @@ defmodule MetaInvestigator do
     * MetaInvestigator.best_image(html) : returns a best image of the html
   """
 
-  defstruct title: nil, images: [], best_title: nil, best_image: nil, meta: %{}
-  @type t :: %__MODULE__{ title: String.t, images: list, best_title: String.t,
-                          best_image: String.t, meta: MetaInvestigator.Meta.t }
+  @type t :: %__MODULE__{
+              title: String.t,
+              images: list,
+              best_title: String.t,
+              best_image: String.t,
+              meta: MetaInvestigator.Meta.t
+            }
+  defstruct title: nil,
+            images: [],      # All images of the website.
+            best_title: nil, # The best title of the website, usually <title> or <og:title>.
+            best_image: nil, # The best image of the website, usually <img> or <og:image>.
+            meta: %{}        # A map containing key value pairs of metatags
 
   @type html :: String.t
 
