@@ -36,7 +36,10 @@ defmodule MetaInvestigator do
   Fetch elements inside a HTML
   """
   def fetch(html) when is_binary(html) do
-    unless String.valid?(html), do: html = to_utf8(html)
+    html = case String.valid?(html) do
+      true  -> html
+      false -> to_utf8(html)
+    end
     %{title: title(html), images: images(html), best_title: best_title(html),
       best_image: best_image(html), meta: Meta.meta(html) }
   end
